@@ -1,0 +1,33 @@
+name: CI
+on:
+  push:
+    branches: [ "feature-ms-valentinaMoreno-mensaje" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build
+        run: |
+          echo "Build"
+  code_review:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v3
+      - name: Análisis SonarCloud
+        run: |
+          chmod +x ./gradlew
+          ./gradlew build sonar -Dsonar.token=${{ secrets.TOKEN_SONARCLOUD }}
+  test:
+    runs-on: ubuntu-latest
+    needs: code_review
+    steps:
+      - uses: actions/checkout@v3
+      - name: Realizar tests
+        run: |
+          chmod +x ./gradlew
+          ./gradlew test
