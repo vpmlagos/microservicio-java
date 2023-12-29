@@ -21,10 +21,10 @@ dependencies {
 sonar {
   properties {
 
-    property "sonar.projectKey", "vpmlagos_pet-clinic"
+    property "sonar.projectKey", "vpmlagos_microservicio-java"
     property "sonar.organization", "vpmlagos"
     property "sonar.host.url", "https://sonarcloud.io/"
-    property "sonar.projectName", "pet-clinic"
+    property "sonar.projectName", "microservicio-java"
 
   }
 }

@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pet-clinic-deployment
+  name: microservice-java-deployment
   labels:
-    app: pet-clinic
+    app: microservice-java
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: pet-clinic
+      app: microservice-java
   template:
     metadata:
       labels:
-        app: pet-clinic
+        app: microservice-java
     spec:
       containers:
-      - name: pet-clinic
-        image: vpmlagos/pet-clinic:latest #parametrizar latest 
+      - name: microservice-java
+        image: vpmlagos/microservice-java:latest #parametrizar latest 
         ports:
         - containerPort: 8085
