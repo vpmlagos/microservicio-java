@@ -40,10 +40,13 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       
       - name: Docker Build
+      - uses: actions/checkout@v3
         run: |
           docker build -t vpmlagos/microservicio-java:latest .
           docker images
+
       - name: Docker push
+      - uses: actions/checkout@v3
         run: | 
           docker push vpmlagos/microservicio-java
 
