@@ -22,9 +22,18 @@ jobs:
       - name: Sonar Gate Check
         uses: sonarsource/sonarqube-quality-gate-action@master 
         env: 
-          SONAR_TOKEN:${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL:${{ secrets.SONAR_HOST_URL }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         with:
           scanMetadataReportFile: build/sonar/report-task.txt
 
-      
+  deploy:
+    runs-on: self-hosted
+    needs: build
+    steps:
+
+      - uses: actions/checkout@v3
+
+      - name: Deploy
+        run: |
+          kubectl apply -f deployment.yml
