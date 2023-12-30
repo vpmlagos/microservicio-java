@@ -2,7 +2,8 @@ plugins {
 	id 'org.springframework.boot' version '2.6.3'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
-	id "org.sonarqube" version "4.2.1.3168"
+	id 'org.sonarqube' version '4.2.1.3168'
+	//id 'jacoco'
 }
 
 group = 'com.example'
@@ -18,15 +19,35 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
 
+/**se ejecuta con gradle test
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+    reports {
+        xml.enabled = true
+        html.enabled = true        
+    }	
+}
+**/
+/**
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.85  // Cambia este valor según tu requisito de cobertura
+            }
+        }
+    }
+}
+**/
 sonar {
-  properties {
+	properties {
 
     property "sonar.projectKey", "vpmlagos_microservicio-java"
     property "sonar.organization", "vpmlagos"
     property "sonar.host.url", "https://sonarcloud.io/"
     property "sonar.projectName", "microservicio-java"
 
-  }
+  	}
 }
 
 test {

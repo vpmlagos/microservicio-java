@@ -1,7 +1,6 @@
 name: CI
 on:
   push:
-    branches: [ "feature-ms-valentinaMoreno-mensaje" ]
   workflow_dispatch:
 
 jobs:
@@ -9,28 +8,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
       - name: Build
         run: |
           chmod +x ./gradlew
           ./gradlew build
 
-  code_review:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+  
       - name: Análisis SonarCloud
         run: |
           chmod +x ./gradlew
-          ./gradlew build sonar -Dsonar.token=${{ secrets.TOKEN_SONARCLOUD }}
-  
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Realizar tests
-        run: |
-          chmod +x ./gradlew
-          ./gradlew test
+          ./gradlew build sonar -Dsonar.token=${{ secrets.SONAR_TOKEN }}
       
+      - name: Sonar Gate Check
+        uses: sonarsource/sonarqube-quality-gate-action@master 
+        env: 
+          SONAR_TOKEN = ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL = ${{ secrets.SONAR_HOST_URL }}
+        with:
+          scanMetadataReportFile: build/sonar/report-task.txt
+
       
