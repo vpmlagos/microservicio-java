@@ -13,7 +13,12 @@ jobs:
           chmod +x ./gradlew
           ./gradlew build
 
-  
+      -name: Copia de jar
+      run: |
+        cp $GITHUB_WORKSPACE/build/libs/testing-web-0.0.1-SNAPSHOT.jar
+        chmod 777 testing-web-0.0.1-SNAPSHOT.jar
+        ls -lt
+
       - name: Análisis SonarCloud
         run: |
           chmod +x ./gradlew
@@ -27,8 +32,7 @@ jobs:
         with:
           scanMetadataReportFile: build/sonar/report-task.txt
 
-
-  deploy:
+  deploy-docker:
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -40,13 +44,17 @@ jobs:
         
       - name: Build
       run: |
-        docker build --tag vpmlagos/microservicio-java:latest
-        
+        docker build --tag vpmlagos/microservicio-java:latest .
+      
+      - name: Docker push
+        run: |
+          docker push vpmlagos/microservicio-java
 
-    #runs-on: ubuntu-latest
-    #needs: build
-    #steps:
-    #  - uses: actions/checkout@v3
-    #  - name: Deploy
-    #    run: |
-    #      kubectl apply -f deployment.yml
+  deploy:
+    runs-on: self-hosted
+    needs: deploy-docker
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy minikube
+        run: |
+          kubectl apply -f deployment.yml
