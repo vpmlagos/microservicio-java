@@ -50,8 +50,8 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
         
       - name: Build
-      run: |
-        docker build --tag vpmlagos/microservicio-java:latest
+        run: |
+          docker build --tag vpmlagos/microservicio-java:latest
         
 
   deploy:
