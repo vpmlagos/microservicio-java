@@ -54,10 +54,11 @@ jobs:
         docker build --tag vpmlagos/microservicio-java:latest
         
 
-    #runs-on: ubuntu-latest
-    #needs: build
-    #steps:
-    #  - uses: actions/checkout@v3
-    #  - name: Deploy
-    #    run: |
-    #      kubectl apply -f deployment.yml
+  deploy:
+    runs-on: self-hosted
+    needs: deploy-docker
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy minikube
+        run: |
+          kubectl apply -f deployment.yml
