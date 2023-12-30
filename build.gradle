@@ -3,7 +3,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 	id 'org.sonarqube' version '4.2.1.3168'
-	//id 'jacoco'
+	id 'jacoco'
 }
 
 group = 'com.example'
@@ -19,7 +19,6 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
 
-/**se ejecuta con gradle test
 jacocoTestReport {
     dependsOn test // tests are required to run before generating the report
     reports {
@@ -27,8 +26,7 @@ jacocoTestReport {
         html.enabled = true        
     }	
 }
-**/
-/**
+
 jacocoTestCoverageVerification {
     violationRules {
         rule {
@@ -38,7 +36,7 @@ jacocoTestCoverageVerification {
         }
     }
 }
-**/
+
 sonar {
 	properties {
 
